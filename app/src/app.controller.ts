@@ -1,7 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { HttpAdapterHost } from '@nestjs/core';
 import { AppService } from './app.service';
-import * as os from 'os';
 
 @Controller()
 export class AppController {
