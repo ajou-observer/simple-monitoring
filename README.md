@@ -18,6 +18,19 @@ docker run -d -p 3000:3000 nestjs-app
 
 # Vanilla JS Web
 docker run -d -p 8080:80 vanilla-web
+
+# Mysql DataBase
+docker run --name mysql-simple-monitoring -e MYSQL_ROOT_PASSWORD=1234 -e MYSQL_DATABASE=simple-monitoring-db -e MYSQL_ROOT_HOST=% -p 33008:3306 -d mysql
+
+```
+
+### 3. make table.
+
+> migration 자동화해야되는데 버그나서 일단 수동으로
+
+```
+CREATE TABLE `client_access_log` (   `id` INT NOT NULL AUTO_INCREMENT,
+`queried_ip` VARCHAR(255) NOT NULL,   `timestamp` DATETIME DEFAULT CURRENT_TIMESTAMP,   PRIMARY KEY (`id`) );
 ```
 
 위 명령어를 실행하면, NestJS 앱은 `http://localhost:3000`에서, 바닐라 JS 웹 페이지는 `http://localhost:8080`에서 접근 가능합니다.
