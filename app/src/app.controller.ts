@@ -1,4 +1,6 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Req } from '@nestjs/common';
+import { Request } from 'express';
+import { ClientAccessLog } from './client-access-log.entity';
 import { AppService } from './app.service';
 
 @Controller()
@@ -11,9 +13,21 @@ export class AppController {
   }
 
   @Get('ip')
-  getIpAndPort(): string {
-    const ip = this.appService.getServerIp();
+  async getIpAndPort(@Req() request: Request): Promise<string> {
+    const serverIp = this.appService.getServerIp();
     const port = this.appService.getServerPort();
-    return `Server is running on IP: ${ip} and Port: ${port}`;
+    const ip =
+      request.headers['x-forwarded-for'] || request.connection.remoteAddress;
+
+    const log = new ClientAccessLog();
+    log.queriedIP = ip.toString();
+
+    await this.appService.saveLogRequestIP(ip.toString());
+    return `Server is running on IP: ${serverIp} and Port: ${port}`;
+  }
+
+  @Get('logs')
+  async getAllLogs(): Promise<ClientAccessLog[]> {
+    return this.appService.findAllLogs();
   }
 }

@@ -1,10 +1,17 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@mikro-orm/nestjs';
+import { EntityManager, EntityRepository } from '@mikro-orm/core';
 import { HttpAdapterHost } from '@nestjs/core';
 import * as os from 'os';
-
+import { ClientAccessLog } from './client-access-log.entity';
 @Injectable()
 export class AppService {
-  constructor(private readonly httpAdapterHost: HttpAdapterHost) {}
+  constructor(
+    @InjectRepository(ClientAccessLog)
+    private readonly clientAccessLogRepository: EntityRepository<ClientAccessLog>,
+    private readonly httpAdapterHost: HttpAdapterHost,
+    private readonly em: EntityManager,
+  ) {}
 
   getHello(): string {
     return 'Hello World!';
@@ -32,5 +39,15 @@ export class AppService {
     const port =
       typeof addressInfo === 'string' ? addressInfo : addressInfo?.port;
     return port;
+  }
+
+  async findAllLogs(): Promise<ClientAccessLog[]> {
+    return this.clientAccessLogRepository.findAll();
+  }
+
+  async saveLogRequestIP(ip: string): Promise<void> {
+    const log = new ClientAccessLog();
+    log.queriedIP = ip;
+    await this.em.persistAndFlush(log);
   }
 }
