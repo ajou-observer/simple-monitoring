@@ -48,6 +48,7 @@ export class AppService {
   async saveLogRequestIP(ip: string): Promise<void> {
     const log = new ClientAccessLog();
     log.queriedIP = ip;
+    log.timestamp = new Date();
     await this.em.persistAndFlush(log);
   }
 }

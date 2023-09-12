@@ -18,8 +18,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "mikro-orm:create": "mikro-orm migration:create",
-    "mikro-orm:update": "mikro-orm migration:up"
+    "mikro-orm:create": " npx ts-node -r tsconfig-paths/register node_modules/.bin/mikro-orm migration:create",
+    "mikro-orm:update": " npx ts-node -r tsconfig-paths/register node_modules/.bin/mikro-orm migration:up"
   },
   "dependencies": {
     "@mikro-orm/cli": "^5.7.14",

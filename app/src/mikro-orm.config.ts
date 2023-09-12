@@ -1,6 +1,6 @@
 import { MikroORM } from '@mikro-orm/core';
 import { SqlHighlighter } from '@mikro-orm/sql-highlighter';
-import { ClientAccessLog } from './src/client-access-log.entity';
+import { ClientAccessLog } from './client-access-log.entity';
 
 export default {
   entities: [ClientAccessLog],

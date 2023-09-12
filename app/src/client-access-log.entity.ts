@@ -8,6 +8,6 @@ export class ClientAccessLog {
   @Property()
   queriedIP: string;
 
-  @Property({ type: 'Date', default: 'now' })
+  @Property({ type: 'Date' })
   timestamp: Date;
 }
