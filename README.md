@@ -13,14 +13,19 @@ docker build -t vanilla-web .
 ### 2. Docker 컨테이너를 실행합니다:
 
 ```bash
+# Mysql DataBase
+docker run --name mysql-simple-monitoring -e MYSQL_ROOT_PASSWORD=1234 -e MYSQL_DATABASE=simple-monitoring-db -e MYSQL_ROOT_HOST=% -p 3306:3306 -d mysql
+
+cd app
+
+npx ts-node -r tsconfig-paths/register node_modules/.bin/mikro-orm migration:create
+npx ts-node -r tsconfig-paths/register node_modules/.bin/mikro-orm migration:up
+
 # NestJS App
 docker run -d -p 3000:3000 nestjs-app
 
 # Vanilla JS Web
 docker run -d -p 8080:80 vanilla-web
-
-# Mysql DataBase
-docker run --name mysql-simple-monitoring -e MYSQL_ROOT_PASSWORD=1234 -e MYSQL_DATABASE=simple-monitoring-db -e MYSQL_ROOT_HOST=% -p 33008:3306 -d mysql
 
 ```
 
