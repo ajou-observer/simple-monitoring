@@ -1,0 +1,33 @@
+# Service definition for Vanilla JS Web
+apiVersion: v1
+kind: Service
+metadata:
+  name: vanilla-js-service
+spec:
+  selector:
+    app: vanilla-js
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+# Deployment for Vanilla JS Web
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vanilla-js-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vanilla-js
+  template:
+    metadata:
+      labels:
+        app: vanilla-js
+    spec:
+      containers:
+        - name: vanilla-js
+          image: vanilla-web
+          ports:
+            - containerPort: 80
