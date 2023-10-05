@@ -28,6 +28,6 @@ spec:
     spec:
       containers:
         - name: nestjs-app
-          image: nestjs-app
+          image: jayoh712/monitoring-app
           ports:
             - containerPort: 3000

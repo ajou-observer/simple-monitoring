@@ -10,6 +10,8 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
+      nodePort: 30080
+   type: NodePort
 ---
 # Deployment for Vanilla JS Web
 apiVersion: apps/v1
@@ -28,6 +30,6 @@ spec:
     spec:
       containers:
         - name: vanilla-js
-          image: vanilla-web
+          image: jayoh712/monitoring-web
           ports:
             - containerPort: 80
