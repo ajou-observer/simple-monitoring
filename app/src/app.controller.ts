@@ -14,15 +14,12 @@ export class AppController {
 
   @Get('ip')
   async getIpAndPort(@Req() request: Request): Promise<string> {
-    const serverIp = this.appService.getServerIp();
+    const serverIp = await this.appService.getExternalIp();
     const port = this.appService.getServerPort();
-    const ip =
-      request.headers['x-forwarded-for'] || request.connection.remoteAddress;
 
     const log = new ClientAccessLog();
-    log.queriedIP = ip.toString();
 
-    await this.appService.saveLogRequestIP(ip.toString());
+    await this.appService.saveLogRequestIP(serverIp);
     return `Server is running on IP: ${serverIp} and Port: ${port}`;
   }
 

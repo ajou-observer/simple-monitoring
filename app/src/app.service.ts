@@ -4,6 +4,8 @@ import { EntityManager, EntityRepository } from '@mikro-orm/core';
 import { HttpAdapterHost } from '@nestjs/core';
 import * as os from 'os';
 import { ClientAccessLog } from './client-access-log.entity';
+import * as http from 'http';
+
 @Injectable()
 export class AppService {
   constructor(
@@ -32,6 +34,27 @@ export class AppService {
     return ip;
   }
 
+getExternalIp(): Promise<string> {
+    return new Promise((resolve, reject) => {
+        http.get({ host: 'httpbin.org', path: '/ip' }, (res) => {
+            let data = '';
+            res.setEncoding('utf8');
+            res.on('data', chunk => {
+                data += chunk;
+            });
+            res.on('end', () => {
+                try {
+                    const ip = JSON.parse(data).origin;
+                    resolve(ip);
+                } catch (e) {
+                    reject(e);
+                }
+            });
+        }).on('error', (e) => {
+            reject(e);
+        });
+    });
+}
   getServerPort(): string {
     const addressInfo = this.httpAdapterHost.httpAdapter
       .getHttpServer()

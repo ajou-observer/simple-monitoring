@@ -4,7 +4,7 @@ import { ClientAccessLog } from './client-access-log.entity';
 
 export default {
   entities: [ClientAccessLog],
-  host: 'mysql-statefulset-0',
+  host: 'db-service',
   port: 3306,
   dbName: 'simple-monitoring-db',
   type: 'mysql',

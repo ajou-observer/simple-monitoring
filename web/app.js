@@ -1,6 +1,6 @@
 document.getElementById("checkIpButton").addEventListener("click", async () => {
   try {
-    const response = await fetch("http://backend-service:80/ip");
+    const response = await fetch("http://15.164.182.142:30040/ip");
     const data = await response.text();
     document.getElementById("result").innerText = data;
   } catch (error) {
@@ -11,7 +11,7 @@ document.getElementById("checkIpButton").addEventListener("click", async () => {
 
 document.getElementById("getLogsButton").addEventListener("click", async () => {
   try {
-    const response = await fetch("http://backend-service:80/logs");
+    const response = await fetch("http://15.164.182.142:30040/logs");
     const data = await response.json();
     const logsElement = document.getElementById("logs");
 

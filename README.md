@@ -4,12 +4,12 @@
 
 ```bash
 # NestJS App
-docker build  --platform linux/amd64 -t nestjs-app .
+docker build --no-cache --platform linux/amd64 -t jayoh712/monitoring-app .
 
 docker build  --platform linux/amd64  -t jayoh712/monitoring-db-migration -f Dockerfile.migration .
 
 # Vanilla JS Web
-docker build  --platform linux/amd64 -t vanilla-web .
+docker build --no-cache --platform linux/amd64 -t vanilla-web .
 ```
 
 ### 2. Docker 컨테이너를 실행합니다:

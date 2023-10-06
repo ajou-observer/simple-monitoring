@@ -11,7 +11,7 @@ import { ClientAccessLog } from './client-access-log.entity';
       dbName: 'simple-monitoring-db',
       user: 'root',
       password: '1234',
-      host: 'mysql-statefulset-0',
+      host: 'db-service',
       port: 3306,
       migrations: {
         path: './src/migrations',
