@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { AppService } from './app.service';
 import { ClientAccessLog } from './client-access-log.entity';
+import { PrometheusModule } from '@willsoto/nestjs-prometheus';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { ClientAccessLog } from './client-access-log.entity';
       },
       entities: [ClientAccessLog],
     }),
+    PrometheusModule.register(),
     MikroOrmModule.forFeature([ClientAccessLog]), // 이 줄 추가
   ],
   controllers: [AppController],

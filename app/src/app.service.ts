@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@mikro-orm/nestjs';
-import { EntityManager, EntityRepository } from '@mikro-orm/core';
+import { EntityManager, EntityRepository, Primary } from '@mikro-orm/core';
 import { HttpAdapterHost } from '@nestjs/core';
 import * as os from 'os';
 import { ClientAccessLog } from './client-access-log.entity';
-import * as http from 'http';
+import axios from 'axios';
 
 @Injectable()
 export class AppService {
@@ -34,27 +34,15 @@ export class AppService {
     return ip;
   }
 
-getExternalIp(): Promise<string> {
-    return new Promise((resolve, reject) => {
-        http.get({ host: 'httpbin.org', path: '/ip' }, (res) => {
-            let data = '';
-            res.setEncoding('utf8');
-            res.on('data', chunk => {
-                data += chunk;
-            });
-            res.on('end', () => {
-                try {
-                    const ip = JSON.parse(data).origin;
-                    resolve(ip);
-                } catch (e) {
-                    reject(e);
-                }
-            });
-        }).on('error', (e) => {
-            reject(e);
-        });
-    });
-}
+  async getExternalIp(): Promise<string> {
+    try {
+      const response = await axios.get('https://ifconfig.me/ip');
+      return response.data;
+    } catch (error) {
+      throw new Error(`Failed to fetch IP: ${error.message}`);
+    }
+  }
+
   getServerPort(): string {
     const addressInfo = this.httpAdapterHost.httpAdapter
       .getHttpServer()
@@ -73,5 +61,14 @@ getExternalIp(): Promise<string> {
     log.queriedIP = ip;
     log.timestamp = new Date();
     await this.em.persistAndFlush(log);
+  }
+
+  sleep(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  async getWithSeelp(): Promise<string> {
+    await this.sleep(2000);
+    return 'Response';
   }
 }

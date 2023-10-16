@@ -12,7 +12,7 @@ spec:
       targetPort: 3000
       # nodeport는 나중에 ingress로 바꿔야 함. 일단 이게 중요한 게 아니니까 외부로 노출만이라도 시키자
       nodePort: 30040
-   type: NodePort
+  type: NodePort
 ---
 # Deployment for NestJS App
 apiVersion: apps/v1
